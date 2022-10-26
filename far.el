@@ -29,7 +29,6 @@
                      (--all? (string-prefix-p (string ch) it) lines))
              do (setq prefix (s-append prefix (string ch)))
              else return prefix)))
-
 (defun far--get-lines (par width)
   "Forward greedy search on PAR word list, WIDTH is an int."
   (when (> (-max (-map #'length par)) width)
@@ -96,11 +95,11 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
   (if (<= (-last-item lines) 3)
       (length par)
     (cl-loop for i from (- (length par) 1) downto 0
-             with best = [9999999 9999999]
+             with best = [1.0e+INF 1.0e+INF]
              and k = [0 0] and x = 0 and b
              do (setq x (+ x (if (= x 0) 0 1) (length (elt par i))))
              if (> x width)
-             return (if (/= (elt best 1) 9999999) (elt k 1) (elt k 0))
+             return (if (/= (elt best 1) 1.0e+INF) (elt k 1) (elt k 0))
              do (setq b
                       (if (<= x (/ (-last-item (elt dp i))
                                    (elt lines i)))
@@ -109,7 +108,7 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
                      (< (-second-item (elt dp i)) (elt best b)))
              do (setf (elt best b) (-second-item (elt dp i))
                       (elt k b) i)
-             finally return (if (/= (elt best 1) 9999999)
+             finally return (if (/= (elt best 1) 1.0e+INF)
                                 (elt k 1)
                               (elt k 0)))))
 
