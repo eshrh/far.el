@@ -14,7 +14,8 @@
 
 (defun far--get-tokens (lines prefix)
   "Split LINES into tokens after skipping PREFIX."
-  (-flatten (--map (s-split-words (substring it (length prefix)))
+  (-flatten (--map (split-string (substring it (length prefix))
+                                 " \\|\n" t)
                    lines)))
 
 (defun far--parse-prefix (lines)

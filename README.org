@@ -35,5 +35,6 @@ could use a package manager like straight:
 
 First customize the variable far fill paragraph width to be the number
 of chars you wish to wrap your paragraphs to. The default value is 80.
-Far.el currently exposes only one function far fill paragraph which
-fills the paragraph at the point.
+
+Far.el currently exposes only one function far fill
+paragraph which fills the paragraph at the point.
