@@ -132,6 +132,7 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
 (defvar far-fill-paragraph-width 80
   "Width to fill paragraphs.")
 
+;;;###autoload
 (defun far-fill-paragraph ()
   "Fills paragraph at point to far-fill-paragraph-width chars."
   (interactive)
