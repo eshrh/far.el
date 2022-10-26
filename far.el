@@ -78,8 +78,7 @@ Uses LINES from get-lines and WIDTH constraint."
                                   n (+ 1 (elt lines j)))
                             (setq sum-x2j (+ sum-x2j (* x x))
                                   sum-xj (+ sum-xj x))
-                            ;; watch out for floats casted to int?
-                            (setq mean (/ sum-xj n))
+                            (setq mean (/ sum-xj (float n)))
                             (setq var (- (/ sum-x2j n) (* mean mean)))
                             (when (and (< var best)
                                        (= n (elt lines i)))
