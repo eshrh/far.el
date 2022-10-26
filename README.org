@@ -1,0 +1,21 @@
+* far.el: minimal variance paragraph filling
+
+Far.el is a reimplementation of [[https://stephen-huan.github.io/blog/far/][far]] by [[https://github.com/stephen-huan][stephen huan]].
+
+It is an alternative to =fill-paragraph=, which reflows the paragraph
+greedily. Far chooses line lengths by minimizing the variance of lines
+subject to a width constraint.
+
+* Dependencies
+
+There are currently two non built in dependencies but these might go
+away in the future if I decide to rewrite some bits more verbosely
+
++ =s.el=: string utils
++ =dash.el=: list utils
+
+There is a good chance you already have one or two of these
+packages installed if you use some common packages like magit.
+
+=cl-lib= is also depended upon, which has been included in emacs since
+24.3
