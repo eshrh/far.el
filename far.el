@@ -1,5 +1,7 @@
 ;;; far.el --- minimal variance paragraph filling.
 
+;; Package-Requires: (s dash)
+
 ;;; Commentary:
 
 ;; Reimplementation of far a dynamic programming based paragraph filler

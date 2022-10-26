@@ -19,3 +19,14 @@ packages installed if you use some common packages like magit.
 
 =cl-lib= is also depended upon, which has been included in emacs since
 24.3
+
+* Installation
+
+You could copy =far.el= into your load path the manual way, or you
+could use a package manager like straight:
+
+#+BEGIN_SRC emacs-lisp
+(straight-use-package
+ '(far :type git
+       :repo "https://github.com/eshrh/far.el"))
+#+END_SRC
