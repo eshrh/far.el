@@ -22,13 +22,16 @@
   "Find the common prefix between LINES in a set of symbols."
   (let ((prefix nil)
         (smallest (-min (-map #'length lines)))
-        (prefixes '(?# ?\; ?> ?: ?- ?* ?$ ?% ?/)))
+        (prefixes '(?# ?\; ?> ?: ?- ?* ?$ ?% ?/ ? )))
     (cl-loop for ch across (substring (-first-item lines) 0 smallest)
              with prefix = nil
              if (and (-contains? prefixes ch)
-                     (--all? (string-prefix-p (string ch) it) lines))
-             do (setq prefix (s-append prefix (string ch)))
+                     (--all? (string-prefix-p
+                              (s-append (string ch) prefix) it)
+                             lines))
+             do (setq prefix (s-append (string ch) prefix))
              else return prefix)))
+
 (defun far--get-lines (par width)
   "Forward greedy search on PAR word list, WIDTH is an int."
   (when (> (-max (-map #'length par)) width)
@@ -139,7 +142,6 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
   (interactive)
   (let* ((para-end (save-excursion
                      (backward-paragraph)
-                     (forward-char)
                      (set-mark (point))
                      (forward-paragraph)
                      (backward-char)
@@ -147,7 +149,9 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
          (para-start (region-beginning))
          (para (buffer-substring-no-properties para-start para-end))
          (rewrapped (far--process para far-fill-paragraph-width)))
-    (replace-region-contents para-start para-end (lambda () rewrapped))))
+    ;; hack to make sure indentation is preserved correctly
+    (replace-region-contents (+ (if (s-prefix? "\n" para) 1 0) para-start)
+                             para-end (lambda () rewrapped))))
 
 (provide 'far)
 ;;; far.el ends here
