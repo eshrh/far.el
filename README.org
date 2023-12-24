@@ -1,6 +1,6 @@
 * far.el: minimal variance paragraph filling
 
-Far.el is a reimplementation of [[https://stephen-huan.github.io/blog/far/][far]] by [[https://github.com/stephen-huan][stephen huan]].
+Far.el is a reimplementation of [[https://cgdct.moe/blog/far/][far]] by [[https://github.com/stephen-huan][stephen huan]].
 
 It is an alternative to =fill-paragraph=, which reflows the paragraph
 greedily. Far chooses line lengths by minimizing the variance of lines
