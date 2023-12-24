@@ -33,8 +33,10 @@ could use a package manager like straight:
 
 * Usage
 
-First customize the variable far fill paragraph width to be the number
-of chars you wish to wrap your paragraphs to. The default value is 80.
+The variable `far-fill-paragraph-width` can be customized the change
+the maximum line width. The default value is 80. It may be helpful to
+write functions on mode hooks that modify this value so that you can
+have different line widths for different programming languages.
 
 Far.el currently exposes only one function,
 =far-fill-paragraph= which fills the paragraph at the point.
