@@ -22,7 +22,7 @@
   "Find the common prefix between LINES in a set of symbols."
   (let ((prefix nil)
         (smallest (-min (-map #'length lines)))
-        (prefixes '(?# ?\; ?> ?: ?- ?* ?$ ?% ?/ ? )))
+        (prefixes '(?# ?\; ?> ?: ?- ?* ?$ ?% ?/ ?  ?|)))
     (cl-loop for ch across (substring (-first-item lines) 0 smallest)
              with prefix = nil
              if (and (-contains? prefixes ch)
