@@ -133,7 +133,7 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
              do (setq i j))
     (s-join "\n" (--map (concat prefix it) out))))
 
-(defvar far-fill-paragraph-width 80
+(defvar far-fill-paragraph-width 70
   "Width to fill paragraphs.")
 
 ;;;###autoload
