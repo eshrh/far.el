@@ -1,10 +1,10 @@
-;;; far.el --- minimal variance paragraph filling.
+;;; inflow.el --- minimal variance paragraph filling.
 
 ;; Package-Requires: (s dash)
 
 ;;; Commentary:
 
-;; Reimplementation of far a dynamic programming based paragraph filler
+;; Reimplementation of far/inflow a dynamic programming based paragraph filler
 
 ;;; Code:
 
@@ -12,13 +12,13 @@
 (require 'dash)
 (require 'cl-lib)
 
-(defun far--get-tokens (lines prefix)
+(defun inflow--get-tokens (lines prefix)
   "Split LINES into tokens after skipping PREFIX."
   (-flatten (--map (split-string (substring it (length prefix))
                                  " \\|\n" t)
                    lines)))
 
-(defun far--parse-prefix (lines)
+(defun inflow--parse-prefix (lines)
   "Find the common prefix between LINES in a set of symbols."
   (let ((prefix nil)
         (smallest (-min (-map #'length lines)))
@@ -32,7 +32,7 @@
              do (setq prefix (s-append (string ch) prefix))
              else return prefix)))
 
-(defun far--get-lines (par width)
+(defun inflow--get-lines (par width)
   "Forward greedy search on PAR word list, WIDTH is an int."
   (when (> (-max (-map #'length par)) width)
     (error "Longest word is larger than the width"))
@@ -53,7 +53,7 @@
                      (push count lines))
            finally return (reverse lines)))
 
-(defun far--vardp (par lines width)
+(defun inflow--vardp (par lines width)
   "Generate the dp table from PAR, word list.
 Uses LINES from get-lines and WIDTH constraint."
   (cl-loop for i from 1 to (length par)
@@ -92,7 +92,7 @@ Uses LINES from get-lines and WIDTH constraint."
            do (setf (elt dp i) (list k best sum-x2 sum-x))
            finally return dp))
 
-(defun far--compute-k (par lines dp)
+(defun inflow--compute-k (par lines dp)
   "Computes the start point for refilling.
 Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
   (if (<= (-last-item lines) 3)
@@ -115,14 +115,14 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
                                 (elt k 1)
                               (elt k 0)))))
 
-(defun far--process (text width)
+(defun inflow--process (text width)
   "Takes a raw string TEXT and return the wrapped string to WIDTH."
   (let* ((lines-raw (s-split "\n" text t))
-         (prefix (far--parse-prefix lines-raw))
-         (par (far--get-tokens lines-raw prefix))
-         (lines (far--get-lines par width))
-         (dp (far--vardp par lines width))
-         (k (far--compute-k par lines dp))
+         (prefix (inflow--parse-prefix lines-raw))
+         (par (inflow--get-tokens lines-raw prefix))
+         (lines (inflow--get-lines par width))
+         (dp (inflow--vardp par lines width))
+         (k (inflow--compute-k par lines dp))
          (out nil))
     (if (< k (length par))
         (push (s-join " " (-slice par k)) out))
@@ -133,12 +133,12 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
              do (setq i j))
     (s-join "\n" (--map (concat prefix it) out))))
 
-(defvar far-fill-paragraph-width 70
+(defvar inflow-fill-paragraph-width 70
   "Width to fill paragraphs.")
 
 ;;;###autoload
-(defun far-fill-paragraph ()
-  "Fills paragraph at point to far-fill-paragraph-width chars."
+(defun inflow-fill-paragraph ()
+  "Fills paragraph at point to inflow-fill-paragraph-width chars."
   (interactive)
   (let* ((para-end (save-excursion
                      (backward-paragraph)
@@ -148,10 +148,10 @@ Uses PAR, word list, LINES, from get-lines, and DP, the dp table."
                      (point)))
          (para-start (region-beginning))
          (para (buffer-substring-no-properties para-start para-end))
-         (rewrapped (far--process para far-fill-paragraph-width)))
+         (rewrapped (inflow--process para inflow-fill-paragraph-width)))
     ;; hack to make sure indentation is preserved correctly
     (replace-region-contents (+ (if (s-prefix? "\n" para) 1 0) para-start)
                              para-end (lambda () rewrapped))))
 
-(provide 'far)
-;;; far.el ends here
+(provide 'inflow)
+;;; inflow.el ends here

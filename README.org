@@ -1,10 +1,11 @@
-* far.el: minimal variance paragraph filling
+* inflow.el: minimal variance paragraph filling
 
-Far.el is a reimplementation of [[https://github.com/stephen-huan/inflow][inflow]] (previously called far).
+inflow.el (previously called far.el) is a reimplementation of
+[[https://github.com/stephen-huan/inflow][inflow]] (previously called far).
 
-It is an alternative to =fill-paragraph=, which reflows the paragraph
-greedily. Far chooses line lengths by minimizing the variance of lines
-subject to a width constraint.
+It is an alternative to =fill-paragraph=, which reflows the
+paragraph greedily. Inflow chooses line lengths by minimizing
+the variance of lines subject to a width constraint.
 
 * Dependencies
 
@@ -22,21 +23,22 @@ packages installed if you use some common packages like magit.
 
 * Installation
 
-You could copy =far.el= into your load path the manual way, or you
-could use a package manager like straight:
+You could copy =inflow.el= into your load path the manual
+way, or you could use a package manager like straight:
 
 #+BEGIN_SRC emacs-lisp
 (straight-use-package
- '(far :type git
-       :repo "https://github.com/eshrh/far.el"))
+ '(inflow :type git
+       :repo "https://github.com/eshrh/inflow.el"))
 #+END_SRC
 
 * Usage
 
-The variable =far-fill-paragraph-width= can be customized the change
-the maximum line width. The default value is 80. It may be helpful to
-write functions on mode hooks that modify this value so that you can
-have different line widths for different programming languages.
+The variable =inflow-fill-paragraph-width= can be customized the change
+the maximum line width. The default value is 70, which matches the emacs
+default for =fill-column=. It may be helpful to write functions on mode
+hooks that modify this value so that you can have different line widths
+for different programming languages.
 
-Far.el currently exposes only one function,
-=far-fill-paragraph= which fills the paragraph at the point.
+inflow.el currently exposes only one function,
+=inflow-fill-paragraph= which fills the paragraph at the point.
